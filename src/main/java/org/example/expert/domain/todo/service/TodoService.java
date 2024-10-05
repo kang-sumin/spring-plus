@@ -17,6 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -57,10 +61,25 @@ public class TodoService {
         );
     }
 
-    public Page<TodoResponse> getTodos(int page, int size) {
+    public Page<TodoResponse> getTodos(int page, int size, String  weather, String searchStartDate, String searchEndDate) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+        // 입력된 날짜가 비었을 때
+        // 해당값이 null인지 먼저 확인해야함 -> null 처리를 먼저하지 않으면 NullPointException 발생함, null 처리후 다음 프로세스 진행하도록 해야 예외 발생 안함
+        if(searchStartDate == null || searchStartDate.isEmpty()){
+            searchStartDate = "00010101";
+        }
+        if(searchEndDate == null || searchEndDate.isEmpty()){
+            searchEndDate = "99991231";
+        }
+
+
+        // String으로 들어온 날짜 데이터형 변환
+        LocalDateTime startDate = LocalDate.parse(searchStartDate, DateTimeFormatter.ofPattern("yyyyMMdd")).atTime(0,0,0);
+        LocalDateTime endDate = LocalDate.parse(searchEndDate, DateTimeFormatter.ofPattern("yyyyMMdd")).atTime(23,59,59);
+
+
+        Page<Todo> todos = todoRepository.findAllByWeatherAndBetweenDate(pageable, weather, startDate, endDate);
 
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
