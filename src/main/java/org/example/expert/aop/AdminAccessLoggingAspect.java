@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,8 +19,9 @@ public class AdminAccessLoggingAspect {
 
     private final HttpServletRequest request;
 
-    @After("execution(* org.example.expert.domain.user.controller.UserController.getUser(..))")
-    public void logAfterChangeUserRole(JoinPoint joinPoint) {
+    // AOP 실행 pointcut 변경 & 실행될 어드바이스 실행 시점 변경과 메서드명 수정
+    @Before("execution(* org.example.expert.domain.user.controller.UserAdminController.changeUserRole(..))")
+    public void logBeforeChangeUserRole(JoinPoint joinPoint) {
         String userId = String.valueOf(request.getAttribute("userId"));
         String requestUrl = request.getRequestURI();
         LocalDateTime requestTime = LocalDateTime.now();
