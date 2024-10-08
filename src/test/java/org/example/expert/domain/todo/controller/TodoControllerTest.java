@@ -38,7 +38,7 @@ class TodoControllerTest {
         // given
         long todoId = 1L;
         String title = "title";
-        AuthUser authUser = new AuthUser(1L, "email", UserRole.USER, "sumin Kang");
+        AuthUser authUser = new AuthUser(1L, "email", UserRole.of("ROLE_USER"), "sumin Kang");
         User user = User.fromAuthUser(authUser);
         UserResponse userResponse = new UserResponse(user.getId(), user.getEmail(), user.getNickname());
         TodoResponse response = new TodoResponse(
