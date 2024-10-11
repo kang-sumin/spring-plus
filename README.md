@@ -10,6 +10,11 @@
 </br></br>
 
 ## [Level 1-2] 2. 코드 추가 퀴즈 - JWT의 이해
+User 정보에 `nickname` 컬럼을 추가해주면서 전체적인 코드를 기획자의 요구에 맞춰 수정하였습니다.
+추가된 `nickname`을 포함하여 JWT 토큰을 인증/인가하여 서비스가 동작할 수 있도록 해주었습니다.
+
+![image](https://github.com/user-attachments/assets/ce9ed046-dfc5-4bfe-b431-c50a3de5fc7f)
+![image](https://github.com/user-attachments/assets/e644ac77-49e2-4217-95f6-b4ea7e7bff55)
 
 
 </br></br>
